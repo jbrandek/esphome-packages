@@ -1,3 +1,7 @@
+substitutions:
+  device_name: switch-1-gel
+  friendly_name: Switch 1 Gel
+  
 esphome:
   name: ${device_name}
   #friendly_name: ${friendly_name}
