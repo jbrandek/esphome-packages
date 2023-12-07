@@ -69,7 +69,7 @@ output:
 light:
   - platform: binary
     restore_mode: RESTORE_DEFAULT_OFF
-    name: ${friendly_name}
+    name: none
     id: my_light
     output: switch_output
     on_turn_on:
@@ -129,7 +129,7 @@ binary_sensor:
                 - delay: 0.5s
 
   - platform: status
-    name: ${friendly_name} Connect
+    name: Connect
 
 text_sensor:
   - platform: wifi_info
