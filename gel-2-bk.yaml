@@ -3,8 +3,8 @@
 #  friendly_name: Switch 2 Gel
 
 esphome:
-  #name: ${device_name}
-  name: switch-gel
+  name: ${device_name}
+  friendly_name: ${friendly_name}
   on_boot:
     then:
       - light.control:
