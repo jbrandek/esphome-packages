@@ -145,7 +145,7 @@ binary_sensor:
       inverted: true
       mode: INPUT_PULLUP
     name: ${device_name}_button_1 
-    id: ${device_name}_button_1
+    id: relay_button_1
     on_multi_click:
       - timing:
         - ON for at most 1s
@@ -167,7 +167,7 @@ binary_sensor:
       mode: INPUT_PULLUP
       inverted: true
     name: ${device_name}_button_2
-    id: ${device_name}_button_2
+    id: relay_button_2
     on_multi_click:
       - timing:
         - ON for at most 1s
