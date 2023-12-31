@@ -114,7 +114,7 @@ output:
 light:
   - platform: binary
     restore_mode: RESTORE_DEFAULT_OFF
-    name: ${friendly_name}_1
+    name: ${light_name_1}
     id: my_light_1
     output: switch_output_1
     on_turn_on:
@@ -135,7 +135,7 @@ light:
   
   - platform: binary
     restore_mode: RESTORE_DEFAULT_OFF
-    name: ${friendly_name}_2
+    name: ${light_name_2}
     id: my_light_2
     output: switch_output_2
     on_turn_on:
@@ -156,7 +156,7 @@ light:
 
   - platform: binary
     restore_mode: RESTORE_DEFAULT_OFF
-    name: ${friendly_name}_3
+    name: ${light_name_3}
     id: my_light_3
     output: switch_output_3
     on_turn_on:
