@@ -86,6 +86,7 @@ light:
   - platform: binary
     restore_mode: RESTORE_DEFAULT_OFF
     id: green_led
+    name: LED
     output: green_led_output
 
   - platform: status_led
