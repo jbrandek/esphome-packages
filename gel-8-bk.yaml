@@ -1,0 +1,177 @@
+#substitutions:
+#  device_name: switch-1-gel
+#  friendly_name: Switch 1 Gel
+  
+esphome:
+  name: ${device_name}
+  friendly_name: ${friendly_name}
+  on_boot:
+    then:
+      - light.control:
+          id: my_light
+          state: !lambda return id(last_light_state);
+      - light.control:
+          id: green_led
+          state: !lambda return id(last_light_state);
+  project:
+    name: Gel.Switch-1
+    version: "1.0"
+
+dashboard_import:
+  package_import_url: github://jbrandek/esphome-packages/gel-1-bk.yaml
+  import_full_config: false
+
+bk72xx:
+  board: generic-bk7231t-qfn32-tuya
+  #restore_from_flash: true  # only needed for esp8266
+
+globals:
+  - id: last_light_state
+    type: boolean
+    restore_value: yes
+    initial_value: "false"
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+  #on_error:
+  #- button.press: restart_button
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "${friendly_name} AP"
+    password: "1234567890"
+
+captive_portal:
+
+preferences:
+  flash_write_interval: 30s #(time in seconds e.g. 30s)
+
+output:
+  - platform: gpio
+    pin:
+      number: P7
+    id: switch_output
+
+  - platform: gpio
+    pin:
+      number: P26
+    #inverted: true
+    id: green_led_output
+
+light:
+  - platform: binary
+    restore_mode: RESTORE_DEFAULT_OFF
+    name: ${friendly_name}
+    id: my_light
+    output: switch_output
+    on_turn_on:
+      - light.turn_on: green_led
+      - globals.set:
+          id: last_light_state
+          value: "true"
+    on_turn_off:
+      - light.turn_off: green_led
+      - globals.set:
+          id: last_light_state
+          value: "false"
+
+  - platform: binary
+    restore_mode: RESTORE_DEFAULT_OFF
+    id: green_led
+    output: green_led_output
+
+  - platform: status_led
+    id: blue_led
+    name: Luz Estado
+    pin:
+      number: P23
+
+binary_sensor:
+  - platform: gpio
+    internal: true
+    pin:
+      number: P8
+      inverted: true
+      mode: INPUT_PULLUP
+    id: my_button
+    name: ${friendly_name} Button
+    on_multi_click:
+      - timing:
+          - ON for at most 1s
+        #- ON for 40ms to 600ms
+        #- OFF for at least 40ms
+        then:
+          if:
+            condition:
+              switch.is_off: shabat_mode
+            then:
+              - light.toggle: my_light
+      - timing:
+          - ON for at least 2s
+        then:
+          - switch.toggle:
+              id: shabat_mode
+          - repeat:
+              count: 3
+              then:
+                - light.toggle:
+                    id: green_led
+                - delay: 0.5s
+                - light.toggle:
+                    id: green_led
+                - delay: 0.5s
+
+  - platform: status
+    name: "Connect"
+
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: "IP Address"
+    ssid:
+      name: "SSID"
+    mac_address:
+      name: "MAC Address"
+
+switch:
+  - platform: template
+    entity_category: config
+    name: "Shabat Mode"
+    id: shabat_mode
+    restore_mode: RESTORE_DEFAULT_OFF
+    optimistic: true
+    on_turn_on:
+      - light.turn_off: green_led
+      - light.turn_on: blue_led
+    on_turn_off:
+      then:
+        if:
+          condition:
+            light.is_off: my_light
+          then:
+            - light.turn_off: green_led
+            - light.turn_off: blue_led
+          else:
+            - light.turn_on: green_led
+            - light.turn_off: blue_led
+
+sensor:
+  - platform: wifi_signal
+    name: "WiFi Strength"
+    update_interval: 60s
+
+  - platform: uptime
+    name: "Uptime"
+
+button:
+  - platform: restart
+    id: restart_button
+    name: "reboot"
