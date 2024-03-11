@@ -173,4 +173,4 @@ sensor:
 button:
   - platform: restart
     id: restart_button
-    name: "${friendly_name} reboot"
+    name: "Reboot"
