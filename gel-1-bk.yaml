@@ -66,6 +66,12 @@ output:
     #inverted: true
     id: green_led_output
 
+  - platform: gpio
+    pin:
+      number: P0
+    #inverted: true
+    id: wifi_led_output
+
 light:
   - platform: binary
     restore_mode: RESTORE_DEFAULT_OFF
@@ -88,6 +94,12 @@ light:
     id: green_led
     output: green_led_output
 
+  - platform: binary
+    name: ${friendly_name} WiFi LED
+    restore_mode: RESTORE_DEFAULT_OFF
+    id: wifi_led
+    output: wifi_led_output
+
   - platform: status_led
     id: blue_led
     pin:
@@ -104,15 +116,30 @@ binary_sensor:
     name: ${friendly_name} Button
     on_multi_click:
       - timing:
-          - ON for at most 1s
-        #- ON for 40ms to 600ms
-        #- OFF for at least 40ms
+          #- ON for at most 1s
+          - ON for 40ms to 400ms
+          - OFF for at least 400ms
         then:
           if:
             condition:
               switch.is_off: shabat_mode
             then:
               - light.toggle: my_light
+      - timing:
+          # 5 click restart
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for at least 400ms
+        then:
+          - button.press:
+              id: restart_button
       - timing:
           - ON for at least 2s
         then:
