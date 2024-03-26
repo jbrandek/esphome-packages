@@ -96,7 +96,7 @@ light:
 
   - platform: binary
     name: ${friendly_name} WiFi LED
-    restore_mode: RESTORE_DEFAULT_OFF
+    restore_mode: RESTORE_DEFAULT_ON
     id: wifi_led
     output: wifi_led_output
 
