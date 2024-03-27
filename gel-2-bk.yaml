@@ -88,9 +88,21 @@ output:
       number: P14
     #inverted: true      
     id: green_led_output_2
+    
+  - platform: gpio
+    pin:
+      number: P0
+    #inverted: true
+    id: wifi_led_output
 
 
 light:
+  - platform: binary
+    name: ${friendly_name} WiFi LED
+    restore_mode: RESTORE_DEFAULT_ON
+    id: wifi_led
+    output: wifi_led_output
+    
   - platform: binary
     restore_mode: RESTORE_DEFAULT_OFF
     name: ${light_name_1}
