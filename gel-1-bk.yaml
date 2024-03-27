@@ -68,7 +68,7 @@ output:
 
   - platform: gpio
     pin:
-      number: P1
+      number: P11
     #inverted: true
     id: wifi_led_output
 
@@ -97,6 +97,7 @@ light:
   - platform: binary
     name: ${friendly_name} WiFi LED
     restore_mode: RESTORE_DEFAULT_ON
+    entity_category: config
     id: wifi_led
     output: wifi_led_output
 
