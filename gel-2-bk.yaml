@@ -91,7 +91,7 @@ output:
     
   - platform: gpio
     pin:
-      number: P0
+      number: P11
     #inverted: true
     id: wifi_led_output
 
