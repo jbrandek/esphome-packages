@@ -144,6 +144,7 @@ sensor:
   - platform: bh1750
     name: "Light Sensor"
     address: 0x23
+    disabled_by_default: true
     update_interval: 1500ms
 
 switch:
