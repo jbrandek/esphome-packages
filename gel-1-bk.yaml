@@ -99,6 +99,7 @@ light:
     restore_mode: RESTORE_DEFAULT_ON
     entity_category: config
     id: wifi_led
+    disabled_by_default: true
     output: wifi_led_output
 
   - platform: status_led
