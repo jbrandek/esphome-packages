@@ -101,6 +101,7 @@ light:
     name: ${friendly_name} WiFi LED
     restore_mode: RESTORE_DEFAULT_ON
     id: wifi_led
+    disabled_by_default: true
     output: wifi_led_output
     
   - platform: binary
@@ -161,13 +162,29 @@ binary_sensor:
     id: relay_button_1
     on_multi_click:
       - timing:
-        - ON for at most 1s
+          - ON for 40ms to 400ms
+          - OFF for at least 400ms
         then:
           if:
             condition:
               switch.is_off: shabat_mode
             then:
               - light.toggle: my_light_1
+      - timing:
+          # 5 click restart
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for at least 400ms
+        then:
+          - button.press:
+              id: restart_button       
       - timing:
         - ON for at least 2s
         then:
@@ -183,13 +200,29 @@ binary_sensor:
     id: relay_button_2
     on_multi_click:
       - timing:
-        - ON for at most 1s
+          - ON for 40ms to 400ms
+          - OFF for at least 400ms
         then:
           if:
             condition:
               switch.is_off: shabat_mode
             then:
               - light.toggle: my_light_2
+      - timing:
+          # 5 click restart
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for at least 400ms
+        then:
+          - button.press:
+              id: restart_button  
       - timing:
         - ON for at least 2s
         then:
