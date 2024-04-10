@@ -162,7 +162,7 @@ binary_sensor:
     id: relay_button_1
     on_multi_click:
       - timing:
-          - ON for 40ms to 400ms
+          - ON for 40ms to 800ms
           - OFF for at least 400ms
         then:
           if:
@@ -200,7 +200,7 @@ binary_sensor:
     id: relay_button_2
     on_multi_click:
       - timing:
-          - ON for 40ms to 400ms
+          - ON for 40ms to 800ms
           - OFF for at least 400ms
         then:
           if:
