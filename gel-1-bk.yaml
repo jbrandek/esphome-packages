@@ -119,7 +119,7 @@ binary_sensor:
     on_multi_click:
       - timing:
           #- ON for at most 1s
-          - ON for 40ms to 400ms
+          - ON for 40ms to 800ms
           - OFF for at least 400ms
         then:
           if:
