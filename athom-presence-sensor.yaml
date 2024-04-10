@@ -53,7 +53,7 @@ light:
   - platform: binary
     name: "Status LED"
     output: light_output
-    entity_category: config
+    #entity_category: config
     disabled_by_default: false
 
 output:
