@@ -20,8 +20,8 @@ esphome:
           id: green_led_2
           state: !lambda return id(last_light2_state);
   project:
-    name: Gel.Switch-2
-    version: "1.0"
+    name: DiraSmart.Switch-2
+    version: "WB3S"
 
 dashboard_import:
   package_import_url: github://jbrandek/esphome-packages/gel-2-bk.yaml
