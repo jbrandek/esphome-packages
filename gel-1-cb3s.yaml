@@ -58,7 +58,7 @@ preferences:
 output:
   - platform: gpio
     pin:
-      number: P7
+      number: P9
     id: switch_output
 
   - platform: gpio
@@ -112,7 +112,7 @@ binary_sensor:
   - platform: gpio
     internal: true
     pin:
-      number: P8
+      number: P7
       inverted: true
       mode: INPUT_PULLUP
     id: my_button
