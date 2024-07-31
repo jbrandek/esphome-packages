@@ -75,13 +75,13 @@ output:
 
   - platform: gpio
     pin:
-      number: P1
+      number: P11
     #inverted: true      
     id: green_led_output_1
   
   - platform: gpio
     pin: 
-      number: P9
+      number: P8
     id: switch_output_2
 
   - platform: gpio
@@ -92,7 +92,7 @@ output:
     
   - platform: gpio
     pin:
-      number: P11
+      number: P0
     #inverted: true
     id: wifi_led_output
 
