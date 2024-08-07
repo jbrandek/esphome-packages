@@ -76,6 +76,7 @@ output:
   - platform: gpio
     pin:
       number: P11
+      # P21 WB3S
     #inverted: true      
     id: green_led_output_1
   
@@ -92,7 +93,8 @@ output:
     
   - platform: gpio
     pin:
-      number: P0
+      number: P21
+      # P11 WB3S
     #inverted: true
     id: wifi_led_output
 
