@@ -95,7 +95,7 @@ output:
     pin:
       number: P23
       # P11 WB3S
-    #inverted: true
+    inverted: true
     id: wifi_led_output
 
 
