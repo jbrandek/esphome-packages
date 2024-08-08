@@ -253,8 +253,10 @@ switch:
     optimistic: true
     on_turn_on:
       - light.turn_on: blue_led
+      - light.turn_off: wifi_led
     on_turn_off:
       - light.turn_off: blue_led
+      - light.turn_on: wifi_led
 
 
 script:
