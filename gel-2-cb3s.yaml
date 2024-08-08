@@ -24,7 +24,7 @@ esphome:
     version: "CB3S"
 
 dashboard_import:
-  package_import_url: github://jbrandek/esphome-packages/gel-2-bk.yaml
+  package_import_url: github://jbrandek/esphome-packages/gel-2-cb3s.yaml
   import_full_config: false
 
 bk72xx:
