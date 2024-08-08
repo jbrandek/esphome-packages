@@ -1,0 +1,366 @@
+esphome:
+  name: ${device_name}
+  #friendly_name: ${friendly_name}
+  on_boot:
+    then:
+      - light.control:
+          id: my_light_1
+          state: !lambda return id(last_light1_state);
+      - light.control:
+          id: green_led_1
+          state: !lambda return id(last_light1_state);
+      - light.control:
+          id: my_light_2
+          state: !lambda return id(last_light2_state);
+      - light.control:
+          id: green_led_2
+          state: !lambda return id(last_light2_state);
+      - light.control:
+          id: my_light_3
+          state: !lambda return id(last_light3_state);
+      - light.control:
+          id: green_led_3
+          state: !lambda return id(last_light3_state);
+  project:
+    name: DiraSmart.Switch-3
+    version: "CB3S"
+
+dashboard_import:
+  package_import_url: github://jbrandek/esphome-packages/gel-3-cb3s.yaml
+  import_full_config: false
+
+bk72xx:
+  board: cb3s
+  #restore_from_flash: true  # only needed for esp8266
+
+globals:
+  - id: last_light1_state
+    type: boolean
+    restore_value: yes
+    initial_value: 'false'
+  - id: last_light2_state
+    type: boolean
+    restore_value: yes
+    initial_value: 'false'
+  - id: last_light3_state
+    type: boolean
+    restore_value: yes
+    initial_value: 'false'
+
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+  - platform: esphome
+  #on_error:
+    #- button.press: restart_button
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "${friendly_name} AP"
+    password: "1234567890"
+
+captive_portal:
+
+preferences:
+  flash_write_interval: 30s #(time in seconds e.g. 30s)
+
+output:
+  - platform: gpio
+    pin: 
+      number: P6
+    id: switch_output_1
+
+  - platform: gpio
+    pin:
+      number: P11
+      # P21 WB3S
+    inverted: true      
+    id: green_led_output_1
+  
+  - platform: gpio
+    pin: 
+      number: P9
+    id: switch_output_2
+
+  - platform: gpio
+    pin:
+      number: P26
+    inverted: true      
+    id: green_led_output_2
+
+  - platform: gpio
+    pin: 
+      number: P8
+    id: switch_output_3
+
+  - platform: gpio
+    pin:
+      number: P14
+    inverted: true      
+    id: green_led_output_3
+    
+  - platform: gpio
+    pin:
+      number: P20
+      # P11 WB3S
+    inverted: true
+    id: wifi_led_output
+
+
+light:
+  - platform: binary
+    name: ${friendly_name} WiFi LED
+    restore_mode: RESTORE_DEFAULT_ON
+    id: wifi_led
+    disabled_by_default: true
+    output: wifi_led_output
+    
+  - platform: binary
+    restore_mode: RESTORE_DEFAULT_OFF
+    name: ${light_name_1}
+    id: my_light_1
+    output: switch_output_1
+    on_turn_on:
+      - light.turn_on: green_led_1
+      - globals.set:
+          id: last_light1_state
+          value: 'true'
+    on_turn_off:
+      - light.turn_off: green_led_1
+      - globals.set:
+          id: last_light1_state
+          value: 'false'
+
+  - platform: binary
+    restore_mode: RESTORE_DEFAULT_OFF
+    id: green_led_1
+    output: green_led_output_1
+  
+  - platform: binary
+    restore_mode: RESTORE_DEFAULT_OFF
+    name: ${light_name_2}
+    id: my_light_2
+    output: switch_output_2
+    on_turn_on:
+      - light.turn_on: green_led_2
+      - globals.set:
+          id: last_light2_state
+          value: 'true'
+    on_turn_off:
+      - light.turn_off: green_led_2
+      - globals.set:
+          id: last_light2_state
+          value: 'false'
+
+  - platform: binary
+    restore_mode: RESTORE_DEFAULT_OFF
+    id: green_led_2
+    output: green_led_output_2
+
+  - platform: binary
+    restore_mode: RESTORE_DEFAULT_OFF
+    name: ${light_name_3}
+    id: my_light_3
+    output: switch_output_3
+    on_turn_on:
+      - light.turn_on: green_led_3
+      - globals.set:
+          id: last_light3_state
+          value: 'true'
+    on_turn_off:
+      - light.turn_off: green_led_3
+      - globals.set:
+          id: last_light3_state
+          value: 'false'
+
+  - platform: binary
+    restore_mode: RESTORE_DEFAULT_OFF
+    id: green_led_3
+    output: green_led_output_3
+  
+  - platform: status_led
+    id: blue_led
+    pin:
+      number: P23
+      inverted: true
+
+binary_sensor:
+  - platform: gpio
+    internal: true
+    pin:
+      number: P24
+      inverted: true
+      mode: INPUT_PULLUP
+    name: ${device_name}_button_1 
+    id: relay_button_1
+    on_multi_click:
+      - timing:
+          - ON for 40ms to 800ms
+          - OFF for at least 400ms
+        then:
+          if:
+            condition:
+              switch.is_off: shabat_mode
+            then:
+              - light.toggle: my_light_1
+      - timing:
+          # 5 click restart
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for at least 400ms
+        then:
+          - button.press:
+              id: restart_button       
+      - timing:
+        - ON for at least 2s
+        then:
+        - script.execute: shabat_script
+  
+  - platform: gpio
+    internal: true
+    pin:
+      number: P7
+      mode: INPUT_PULLUP
+      inverted: true
+    name: ${device_name}_button_2
+    id: relay_button_2
+    on_multi_click:
+      - timing:
+          - ON for 40ms to 800ms
+          - OFF for at least 400ms
+        then:
+          if:
+            condition:
+              switch.is_off: shabat_mode
+            then:
+              - light.toggle: my_light_2
+      - timing:
+          # 5 click restart
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for at least 400ms
+        then:
+          - button.press:
+              id: restart_button  
+      - timing:
+        - ON for at least 2s
+        then:
+        - script.execute: shabat_script
+  
+  - platform: gpio
+    internal: true
+    pin:
+      number: P10
+      mode: INPUT_PULLUP
+      inverted: true
+    name: ${device_name}_button_3
+    id: relay_button_3
+    on_multi_click:
+      - timing:
+          - ON for 40ms to 800ms
+          - OFF for at least 400ms
+        then:
+          if:
+            condition:
+              switch.is_off: shabat_mode
+            then:
+              - light.toggle: my_light_3
+      - timing:
+          # 5 click restart
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for at least 400ms
+        then:
+          - button.press:
+              id: restart_button  
+      - timing:
+        - ON for at least 2s
+        then:
+        - script.execute: shabat_script
+
+
+  - platform: status
+    name: "${friendly_name} Connect"
+
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: "${friendly_name} IP Address"
+    ssid:
+      name: "${friendly_name} SSID"
+    mac_address:
+      name: "${friendly_name} MAC Address"
+
+switch:
+  - platform: template
+    entity_category: config
+    name: "${friendly_name} Shabat Mode"
+    id: shabat_mode
+    restore_mode: RESTORE_DEFAULT_OFF
+    optimistic: true
+    on_turn_on:
+      - light.turn_on: blue_led
+      - light.turn_off: wifi_led
+    on_turn_off:
+      - light.turn_off: blue_led
+      - light.turn_on: wifi_led
+
+
+script:
+  - id: shabat_script
+    then:
+      - switch.toggle: 
+          id: shabat_mode
+      - repeat:
+          count: 3
+          then:
+            - light.toggle:
+                id: blue_led
+            - delay: 0.5s
+            - light.toggle:
+                id: blue_led
+            - delay: 0.5s
+
+sensor:
+  - platform: wifi_signal
+    name: "${friendly_name} WiFi Strength"
+    update_interval: 60s
+
+  - platform: uptime
+    name:  "${friendly_name} Uptime"
+
+button:
+  - platform: restart
+    id: restart_button
+    name: "${friendly_name} reboot"
+    
