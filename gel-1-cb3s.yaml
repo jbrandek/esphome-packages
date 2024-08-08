@@ -64,13 +64,13 @@ output:
   - platform: gpio
     pin:
       number: P26
-    #inverted: true
+    inverted: true
     id: green_led_output
 
   - platform: gpio
     pin:
-      number: P11
-    #inverted: true
+      number: P20
+    inverted: true
     id: wifi_led_output
 
 light:
@@ -107,6 +107,7 @@ light:
     id: blue_led
     pin:
       number: P23
+      inverted: true
 
 binary_sensor:
   - platform: gpio
