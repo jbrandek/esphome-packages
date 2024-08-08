@@ -196,7 +196,7 @@ switch:
           else:
             - light.turn_on: green_led
             - light.turn_off: blue_led
-            - light.turn_on: wifi_led
+            - light.turn_off: wifi_led
 
 sensor:
   - platform: wifi_signal
