@@ -93,7 +93,7 @@ output:
     
   - platform: gpio
     pin:
-      number: P23
+      number: P20
       # P11 WB3S
     #inverted: true
     id: wifi_led_output
@@ -152,7 +152,7 @@ light:
   - platform: status_led
     id: blue_led
     pin:
-      number: P20
+      number: P23
       inverted: true
 
 binary_sensor:
