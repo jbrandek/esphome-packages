@@ -153,7 +153,7 @@ light:
     id: blue_led
     pin:
       number: P20
-    inverted: true
+      inverted: true
 
 binary_sensor:
   - platform: gpio
