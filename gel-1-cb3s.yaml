@@ -81,11 +81,13 @@ light:
     output: switch_output
     on_turn_on:
       - light.turn_on: green_led
+      - light.turn_off: wifi_led
       - globals.set:
           id: last_light_state
           value: "true"
     on_turn_off:
       - light.turn_off: green_led
+      - light.turn_on: wifi_led
       - globals.set:
           id: last_light_state
           value: "false"
@@ -180,6 +182,7 @@ switch:
     optimistic: true
     on_turn_on:
       - light.turn_off: green_led
+      - light.turn_off: wifi_led
       - light.turn_on: blue_led
     on_turn_off:
       then:
@@ -189,9 +192,11 @@ switch:
           then:
             - light.turn_off: green_led
             - light.turn_off: blue_led
+            - light.turn_on: wifi_led
           else:
             - light.turn_on: green_led
             - light.turn_off: blue_led
+            - - light.turn_on: wifi_led
 
 sensor:
   - platform: wifi_signal
