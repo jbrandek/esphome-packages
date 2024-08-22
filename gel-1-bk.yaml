@@ -55,6 +55,10 @@ captive_portal:
 preferences:
   flash_write_interval: 30s #(time in seconds e.g. 30s)
 
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
 output:
   - platform: gpio
     pin:
