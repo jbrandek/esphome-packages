@@ -1,0 +1,5 @@
+switch:
+ - platform: safe_mode
+   name: ${friendly_name} Safe Mode
+   id: device_safe_mode
+   entity_category: diagnostic
