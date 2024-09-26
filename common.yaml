@@ -48,9 +48,10 @@ button:
   - platform: restart
     id: restart_button
     name: "${friendly_name} reboot"
+    entity_category: config
 
 switch:
   - platform: safe_mode
     name: ${friendly_name} Safe Mode
     id: device_safe_mode
-    entity_category: diagnostic
+    entity_category: config
