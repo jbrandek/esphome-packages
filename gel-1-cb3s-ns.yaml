@@ -10,7 +10,7 @@ esphome:
           id: green_led
           state: !lambda return id(last_light_state);
   project:
-    name: DiraSmart.Switch-1
+    name: DiraSmart.Switch-1-NS
     version: "CB3S"
 
 dashboard_import:
