@@ -1,0 +1,121 @@
+
+esphome:
+  name: ${device_name}
+  on_boot:
+    then:
+      - light.control:
+          id: my_light
+          state: !lambda return id(last_light_state);
+      - light.control:
+          id: green_led
+          state: !lambda return id(last_light_state);
+  project:
+    name: DiraSmart.Switch-1
+    version: "CB3S"
+
+dashboard_import:
+  package_import_url: github://jbrandek/esphome-packages/gel-1-cb3s-ns.yaml
+  import_full_config: false
+
+bk72xx:
+  board: cb3s
+
+packages:
+  common: github://jbrandek/esphome-packages/common.yaml
+
+globals:
+  - id: last_light_state
+    type: boolean
+    restore_value: yes
+    initial_value: "false"
+
+preferences:
+  flash_write_interval: 30s #(time in seconds e.g. 30s)
+
+output:
+  - platform: gpio
+    pin:
+      number: P9
+    id: switch_output
+
+  - platform: gpio
+    pin:
+      number: P26
+    #inverted: true
+    id: green_led_output
+
+  - platform: gpio
+    pin:
+      number: P11
+    #inverted: true
+    id: wifi_led_output
+
+light:
+  - platform: binary
+    restore_mode: RESTORE_DEFAULT_OFF
+    name: ${friendly_name}
+    id: my_light
+    output: switch_output
+    on_turn_on:
+      - light.turn_on: green_led
+      - light.turn_off: wifi_led
+      - globals.set:
+          id: last_light_state
+          value: "true"
+    on_turn_off:
+      - light.turn_off: green_led
+      - light.turn_on: wifi_led
+      - globals.set:
+          id: last_light_state
+          value: "false"
+
+  - platform: binary
+    restore_mode: RESTORE_DEFAULT_OFF
+    id: green_led
+    output: green_led_output
+
+  - platform: binary
+    name: ${friendly_name} WiFi LED
+    restore_mode: RESTORE_DEFAULT_ON
+    entity_category: config
+    id: wifi_led
+    disabled_by_default: true
+    output: wifi_led_output
+
+  - platform: status_led
+    id: blue_led
+    pin:
+      number: P23
+      #inverted: true
+
+binary_sensor:
+  - platform: gpio
+    internal: true
+    pin:
+      number: P7
+      inverted: true
+      mode: INPUT_PULLUP
+    id: my_button
+    name: ${friendly_name} Button
+    on_multi_click:
+      - timing:
+          #- ON for at most 1s
+          - ON for 40ms to 800ms
+          - OFF for at least 400ms
+        then:
+          - light.toggle: my_light
+      - timing:
+          # 5 click restart
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for 40ms to 400ms
+          - ON for 40ms to 400ms
+          - OFF for at least 400ms
+        then:
+          - button.press:
+              id: restart_button
