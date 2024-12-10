@@ -1,7 +1,3 @@
-#substitutions:
-#  device_name: switch-1-gel
-#  friendly_name: Switch 1 Gel
-  
 esphome:
   name: ${device_name}
   #friendly_name: ${friendly_name}
@@ -23,34 +19,15 @@ dashboard_import:
 
 bk72xx:
   board: cb3s
-  #restore_from_flash: true  # only needed for esp8266
+
+packages:
+  common: github://jbrandek/esphome-packages/common.yaml
 
 globals:
   - id: last_light_state
     type: boolean
     restore_value: yes
     initial_value: "false"
-
-# Enable logging
-logger:
-
-# Enable Home Assistant API
-api:
-
-ota:
-  - platform: esphome
-  #on_error:
-  #- button.press: restart_button
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "${friendly_name} AP"
-    password: "1234567890"
-
-captive_portal:
 
 preferences:
   flash_write_interval: 30s #(time in seconds e.g. 30s)
@@ -161,18 +138,6 @@ binary_sensor:
                     id: green_led
                 - delay: 0.5s
 
-  - platform: status
-    name: "${friendly_name} Connect"
-
-text_sensor:
-  - platform: wifi_info
-    ip_address:
-      name: "${friendly_name} IP Address"
-    ssid:
-      name: "${friendly_name} SSID"
-    mac_address:
-      name: "${friendly_name} MAC Address"
-
 switch:
   - platform: template
     entity_category: config
@@ -197,16 +162,3 @@ switch:
             - light.turn_on: green_led
             - light.turn_off: blue_led
             - light.turn_off: wifi_led
-
-sensor:
-  - platform: wifi_signal
-    name: "${friendly_name} WiFi Strength"
-    update_interval: 60s
-
-  - platform: uptime
-    name: "${friendly_name} Uptime"
-
-button:
-  - platform: restart
-    id: restart_button
-    name: "${friendly_name} reboot"
