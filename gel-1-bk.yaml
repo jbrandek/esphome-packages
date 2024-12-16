@@ -1,10 +1,12 @@
-#substitutions:
-#  device_name: switch-1-gel
-#  friendly_name: Switch 1 Gel
+substitutions:
+  device_name: "switch-1-gel"
+  friendly_name: "Switch 1 Gel"
+  room: ""
   
 esphome:
-  name: ${device_name}
-  #friendly_name: ${friendly_name}
+  name: "${device_name}"
+  friendly_name: "${friendly_name}"
+  area: "${room}" 
   on_boot:
     then:
       - light.control:
@@ -14,7 +16,7 @@ esphome:
           id: green_led
           state: !lambda return id(last_light_state);
   project:
-    name: DiraSmart.Switch-1
+    name: "DiraSmart.Switch 1"
     version: "WB3S"
 
 dashboard_import:
@@ -83,7 +85,7 @@ output:
 light:
   - platform: binary
     restore_mode: RESTORE_DEFAULT_OFF
-    name: ${friendly_name}
+    name: "Luz"
     id: my_light
     output: switch_output
     on_turn_on:
@@ -103,7 +105,7 @@ light:
     output: green_led_output
 
   - platform: binary
-    name: ${friendly_name} WiFi LED
+    name: "WiFi LED"
     restore_mode: RESTORE_DEFAULT_ON
     entity_category: config
     id: wifi_led
@@ -123,7 +125,7 @@ binary_sensor:
       inverted: true
       mode: INPUT_PULLUP
     id: my_button
-    name: ${friendly_name} Button
+    name: "Button"
     on_multi_click:
       - timing:
           #- ON for at most 1s
