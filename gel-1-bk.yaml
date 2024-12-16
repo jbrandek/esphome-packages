@@ -34,13 +34,13 @@ globals:
     initial_value: "false"
 
 # Enable logging
-logger:
+#logger:
 
 # Enable Home Assistant API
-api:
+#api:
 
-ota:
-  - platform: esphome
+#ota:
+#  - platform: esphome
   #on_error:
   #- button.press: restart_button
 
@@ -57,9 +57,9 @@ captive_portal:
 preferences:
   flash_write_interval: 30s #(time in seconds e.g. 30s)
 
-time:
-  - platform: homeassistant
-    id: homeassistant_time
+#time:
+#  - platform: homeassistant
+#    id: homeassistant_time
 
 output:
   - platform: gpio
@@ -164,17 +164,17 @@ binary_sensor:
                     id: green_led
                 - delay: 0.5s
 
-  - platform: status
-    name: "Connect"
+#  - platform: status
+#    name: "Connect"
 
-text_sensor:
-  - platform: wifi_info
-    ip_address:
-      name: "IP Address"
-    ssid:
-      name: "SSID"
-    mac_address:
-      name: "MAC Address"
+#text_sensor:
+#  - platform: wifi_info
+#    ip_address:
+#      name: "IP Address"
+#    ssid:
+#      name: "SSID"
+#    mac_address:
+#      name: "MAC Address"
 
 switch:
   - platform: template
@@ -198,21 +198,21 @@ switch:
             - light.turn_on: green_led
             - light.turn_off: blue_led
 
-sensor:
-  - platform: wifi_signal
-    name: "WiFi Signal"
-    update_interval: 60s
+#sensor:
+#  - platform: wifi_signal
+#    name: "WiFi Signal"
+#    update_interval: 60s
 
-  - platform: uptime
-    name: "Uptime"
+#  - platform: uptime
+#    name: "Uptime"
 
-button:
-  - platform: restart
-    id: restart_button
-    name: "Reboot"
+#button:
+#  - platform: restart
+#    id: restart_button
+#    name: "Reboot"
 
-switch:
-  - platform: safe_mode
-    name: "Safe Mode"
-    id: device_safe_mode
-    entity_category: config
+#switch:
+#  - platform: safe_mode
+#    name: "Safe Mode"
+#    id: device_safe_mode
+#    entity_category: config
