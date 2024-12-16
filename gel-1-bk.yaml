@@ -19,6 +19,9 @@ esphome:
     name: "DiraSmart.Switch 1"
     version: "WB3S"
 
+packages:
+  common: github://jbrandek/esphome-packages/common.yaml
+
 dashboard_import:
   package_import_url: github://jbrandek/esphome-packages/gel-1-bk.yaml@main
   #import_full_config: false
