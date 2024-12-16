@@ -182,7 +182,7 @@ binary_sensor:
 switch:
   - platform: template
     entity_category: config
-    name: "${friendly_name} Shabat Mode"
+    name: "Shabat Mode"
     id: shabat_mode
     restore_mode: RESTORE_DEFAULT_OFF
     optimistic: true
