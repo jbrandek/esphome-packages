@@ -1,10 +1,10 @@
-#substitutions:
-#  device_name: "common"
-#  friendly_name: "Common"
+substitutions:
+  device_name: "common"
+  friendly_name: "Common"
   
-#esphome:
-#  name: "${device_name}"
-#  friendly_name: "${friendly_name}"
+esphome:
+  name: "${device_name}"
+  friendly_name: "${friendly_name}"
 
 
 # Enable logging
