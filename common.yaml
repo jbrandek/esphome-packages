@@ -28,33 +28,33 @@ time:
 
 binary_sensor:
   - platform: status
-    name: "${friendly_name} Connect"
+    name: "Connect"
 
 text_sensor:
   - platform: wifi_info
     ip_address:
-      name: "${friendly_name} IP Address"
+      name: "IP Address"
     ssid:
-      name: "${friendly_name} SSID"
+      name: "SSID"
     mac_address:
       name: "${friendly_name} MAC Address"
 
 sensor:
   - platform: wifi_signal
-    name: "${friendly_name} WiFi Strength"
+    name: "WiFi Strength"
     update_interval: 60s
 
   - platform: uptime
-    name: "${friendly_name} Uptime"
+    name: "Uptime"
 
 button:
   - platform: restart
     id: restart_button
-    name: "${friendly_name} reboot"
+    name: "Reboot"
     entity_category: config
 
 switch:
   - platform: safe_mode
-    name: ${friendly_name} Safe Mode
+    name: "Safe Mode"
     id: device_safe_mode
     entity_category: config
