@@ -1,7 +1,7 @@
 
 esphome:
   name: ${device_name}
-  friendly_name: prueba
+  friendly_name: ${light_name}
   on_boot:
     then:
       - light.control:
