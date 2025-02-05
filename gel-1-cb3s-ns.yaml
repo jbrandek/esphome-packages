@@ -79,7 +79,8 @@ output:
 light:
   - platform: binary
     restore_mode: RESTORE_DEFAULT_OFF
-    name: "Light"
+    #name: "Light"
+    internal: false
     id: my_light
     output: switch_output
     on_turn_on:
