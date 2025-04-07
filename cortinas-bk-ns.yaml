@@ -125,7 +125,7 @@ binary_sensor:
           - delay: 3s
           - text_sensor.template.publish:
               id: action_up
-              state: ""
+              state: "off"
           - light.turn_off: green_led_1
       - timing:
           - ON for at least 600ms
@@ -138,7 +138,7 @@ binary_sensor:
           - delay: 3s
           - text_sensor.template.publish:
               id: action_up
-              state: ""
+              state: "off"
           - light.turn_off: green_led_1
       - timing:
           # 5 click restart
@@ -177,7 +177,7 @@ binary_sensor:
           - delay: 3s
           - text_sensor.template.publish:
               id: action_stop
-              state: ""
+              state: "off"
           - light.turn_off: green_led_2
       - timing:
           - ON for at least 600ms
@@ -190,7 +190,7 @@ binary_sensor:
           - delay: 3s
           - text_sensor.template.publish:
               id: action_stop
-              state: ""
+              state: "off"
           - light.turn_off: green_led_2
       - timing:
           # 5 click restart
@@ -229,7 +229,7 @@ binary_sensor:
           - delay: 3s
           - text_sensor.template.publish:
               id: action_down
-              state: ""
+              state: "off"
           - light.turn_off: green_led_3
       - timing:
           - ON for at least 600ms
@@ -242,7 +242,7 @@ binary_sensor:
           - delay: 3s
           - text_sensor.template.publish:
               id: action_down
-              state: ""
+              state: "off"
           - light.turn_off: green_led_3
       - timing:
           # 5 click restart
