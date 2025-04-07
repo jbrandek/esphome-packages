@@ -170,7 +170,7 @@ binary_sensor:
           - ON for 40ms to 400ms
           - OFF for at least 400ms
         then:
-          - light.turn_on: green_led_1
+          - light.turn_on: green_led_2
           - text_sensor.template.publish:
               id: action_stop
               state: "simple"
@@ -178,12 +178,12 @@ binary_sensor:
           - text_sensor.template.publish:
               id: action_stop
               state: ""
-          - light.turn_off: green_led_1
+          - light.turn_off: green_led_2
       - timing:
           - ON for at least 600ms
           #- OFF for at least 400ms
         then:
-          - light.turn_on: green_led_1
+          - light.turn_on: green_led_2
           - text_sensor.template.publish:
               id: action_stop
               state: "long"
@@ -191,7 +191,7 @@ binary_sensor:
           - text_sensor.template.publish:
               id: action_stop
               state: ""
-          - light.turn_off: green_led_12
+          - light.turn_off: green_led_2
       - timing:
           # 5 click restart
           - ON for 40ms to 400ms
@@ -222,7 +222,7 @@ binary_sensor:
           - ON for 40ms to 400ms
           - OFF for at least 400ms
         then:
-          - light.turn_on: green_led_1
+          - light.turn_on: green_led_3
           - text_sensor.template.publish:
               id: action_down
               state: "simple"
@@ -230,12 +230,12 @@ binary_sensor:
           - text_sensor.template.publish:
               id: action_down
               state: ""
-          - light.turn_off: green_led_1
+          - light.turn_off: green_led_3
       - timing:
           - ON for at least 600ms
           #- OFF for at least 400ms
         then:
-          - light.turn_on: green_led_1
+          - light.turn_on: green_led_3
           - text_sensor.template.publish:
               id: action_down
               state: "long"
@@ -243,7 +243,7 @@ binary_sensor:
           - text_sensor.template.publish:
               id: action_down
               state: ""
-          - light.turn_off: green_led_1
+          - light.turn_off: green_led_3
       - timing:
           # 5 click restart
           - ON for 40ms to 400ms
