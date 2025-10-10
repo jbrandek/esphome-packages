@@ -22,8 +22,8 @@ wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
   ap:
-    ssid: "${device_name} AP"
-    password: "1234567890"
+    #ssid: "${device_name} AP"
+    #password: "1234567890"
 
 captive_portal:
 
