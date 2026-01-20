@@ -16,7 +16,7 @@ esphome:
 
 dashboard_import:
   package_import_url: github://jbrandek/esphome-packages/gel-1-cb3s-ns.yaml
-  import_full_config: false
+  #import_full_config: false
 
 bk72xx:
   board: cb3s
