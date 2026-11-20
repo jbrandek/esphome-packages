@@ -1,3 +1,10 @@
+substitutions:
+  device_name: diras-switch-3-t1
+  friendly_name: "DiraSmart Switch 3 T1"
+  light_name_1: "Luz 1"
+  light_name_2: "Luz 2"
+  light_name_3: "Luz 3"
+
 esphome:
   name: ${device_name}
   on_boot:
@@ -21,18 +28,11 @@ esphome:
           id: green_led_3
           state: !lambda return id(last_light3_state);
   project:
-    name: DiraSmart.Switch-3-NS
-    version: "T13S"
-
-dashboard_import:
-  package_import_url: github://jbrandek/esphome-packages/gel-3-cb3s-ns.yaml
-  import_full_config: false
+    name: DiraSmart.Switch-3-T1-3S
+    version: "T1-3S"
 
 bk72xx:
   board: t1-3s
-
-#packages:
-  #common: github://jbrandek/esphome-packages/common.yaml
 
 # Enable logging
 logger:
@@ -42,23 +42,21 @@ api:
 
 ota:
   - platform: esphome
-  #on_error:
-  #- button.press: restart_button
 
-#wifi:
-#  ssid: !secret wifi_ssid
-#  password: !secret wifi_password
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
- # ap:
-  #  ssid: "${friendly_name} AP"
-   # password: "1234567890"
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  # Fallback hotspot (captive portal) if the WiFi connection fails
+  ap:
+    ssid: "${friendly_name} AP"
+    password: "1234567890"
 
 captive_portal:
 
 time:
   - platform: homeassistant
     id: homeassistant_time
-    
+
 globals:
   - id: last_light1_state
     type: boolean
@@ -74,50 +72,51 @@ globals:
     initial_value: 'false'
 
 preferences:
-  flash_write_interval: 30s #(time in seconds e.g. 30s)
+  flash_write_interval: 30s
 
+# ---------------------------------------------------------------
+# PINES: copiados del CB3S. VERIFICAR contra el esquema del T1-3S
+# (t1-3s.svg en docs.libretiny.eu) antes de energizar.
+# ---------------------------------------------------------------
 output:
   - platform: gpio
-    pin: 
+    pin:
       number: P6
     id: switch_output_1
 
   - platform: gpio
     pin:
-      number: P11
-      # P21 WB3S
-    inverted: true      
+      number: P11      # Ojo: P10/P11 son UART1 (RX1/TX1) usado para flashear
+    inverted: true
     id: green_led_output_1
-  
+
   - platform: gpio
-    pin: 
+    pin:
       number: P9
     id: switch_output_2
 
   - platform: gpio
     pin:
       number: P26
-    inverted: true      
+    inverted: true
     id: green_led_output_2
 
   - platform: gpio
-    pin: 
+    pin:
       number: P8
     id: switch_output_3
 
   - platform: gpio
     pin:
       number: P14
-    inverted: true      
+    inverted: true
     id: green_led_output_3
-    
+
   - platform: gpio
     pin:
       number: P20
-      # P11 WB3S
     inverted: true
     id: wifi_led_output
-
 
 light:
   - platform: binary
@@ -126,7 +125,7 @@ light:
     id: wifi_led
     disabled_by_default: true
     output: wifi_led_output
-    
+
   - platform: binary
     restore_mode: RESTORE_DEFAULT_OFF
     name: ${light_name_1}
@@ -147,7 +146,7 @@ light:
     restore_mode: RESTORE_DEFAULT_OFF
     id: green_led_1
     output: green_led_output_1
-  
+
   - platform: binary
     restore_mode: RESTORE_DEFAULT_OFF
     name: ${light_name_2}
@@ -189,7 +188,7 @@ light:
     restore_mode: RESTORE_DEFAULT_OFF
     id: green_led_3
     output: green_led_output_3
-  
+
   - platform: status_led
     id: blue_led
     pin:
@@ -203,7 +202,7 @@ binary_sensor:
       number: P24
       inverted: true
       mode: INPUT_PULLUP
-    name: ${device_name}_button_1 
+    name: ${device_name}_button_1
     id: relay_button_1
     on_multi_click:
       - timing:
@@ -212,7 +211,7 @@ binary_sensor:
         then:
           - light.toggle: my_light_1
       - timing:
-          # 5 click restart
+          # 5 clics = reinicio
           - ON for 40ms to 400ms
           - OFF for 40ms to 400ms
           - ON for 40ms to 400ms
@@ -225,8 +224,8 @@ binary_sensor:
           - OFF for at least 400ms
         then:
           - button.press:
-              id: restart_button       
-  
+              id: restart_button
+
   - platform: gpio
     internal: true
     pin:
@@ -242,7 +241,7 @@ binary_sensor:
         then:
           - light.toggle: my_light_2
       - timing:
-          # 5 click restart
+          # 5 clics = reinicio
           - ON for 40ms to 400ms
           - OFF for 40ms to 400ms
           - ON for 40ms to 400ms
@@ -255,12 +254,12 @@ binary_sensor:
           - OFF for at least 400ms
         then:
           - button.press:
-              id: restart_button  
-  
+              id: restart_button
+
   - platform: gpio
     internal: true
     pin:
-      number: P10
+      number: P10      # Ojo: RX1 (UART de flasheo)
       mode: INPUT_PULLUP
       inverted: true
     name: ${device_name}_button_3
@@ -272,7 +271,7 @@ binary_sensor:
         then:
           - light.toggle: my_light_3
       - timing:
-          # 5 click restart
+          # 5 clics = reinicio
           - ON for 40ms to 400ms
           - OFF for 40ms to 400ms
           - ON for 40ms to 400ms
@@ -285,7 +284,8 @@ binary_sensor:
           - OFF for at least 400ms
         then:
           - button.press:
-              id: restart_button  
+              id: restart_button
+
 text_sensor:
   - platform: wifi_info
     ip_address:
@@ -314,5 +314,3 @@ switch:
     name: "Safe Mode"
     id: device_safe_mode
     entity_category: config
-
-  
