@@ -6,7 +6,7 @@ substitutions:
   pin_green_led: P26   # LED verde (antes P26)
   pin_wifi_led: P11    # LED WiFi (antes P11)
   pin_status_led: P23  # LED azul de estado (antes P23)
-  pin_button: P7       # Botón (antes P7)
+  pin_button: P2       # Botón (antes P7)
 
 esphome:
   name: ${device_name}
